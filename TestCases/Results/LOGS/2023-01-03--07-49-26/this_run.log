@@ -1,0 +1,39 @@
+2023-01-03 07:49:26,390 INFO environment.py:86 before_all() - Logfile_path=C:\AutomationFW\TestCases\Results\LOGS\2023-01-03--07-49-26\this_run.log
+2023-01-03 07:49:26,390 INFO environment.py:87 before_all() - Current working directory is: C:\AutomationFW\TestCases
+2023-01-03 07:49:26,400 INFO environment.py:109 before_feature() - Started feature.name='Testing first scenario'
+2023-01-03 07:49:26,402 INFO logger.py:22 log() - 
+
+2023-01-03 07:49:26,402 INFO logger.py:12 log() - ====== WebDriver manager ======
+2023-01-03 07:49:26,606 INFO logger.py:12 log() - Current google-chrome version is 108.0.5359
+2023-01-03 07:49:26,607 INFO logger.py:12 log() - Get LATEST driver version for 108.0.5359
+2023-01-03 07:49:27,755 INFO logger.py:12 log() - Driver [C:\Users\Harini\.wdm\drivers\chromedriver\win32\108.0.5359.71\chromedriver.exe] found in cache
+2023-01-03 07:49:30,539 INFO common_selenium_utils.py:39 __init__() - ====> Initialized Selenium Web driver of class ServerWebSeleniumUtils for  Server <===
+2023-01-03 07:49:30,539 INFO common_selenium_utils.py:40 __init__() - Web Server Browser Selected is --> 'chrome'
+2023-01-03 07:49:30,539 INFO common_selenium_utils.py:41 __init__() - Web Server Selenium Driver initiated is --> '<selenium.webdriver.chrome.webdriver.WebDriver (session="cd7259e9b208c52e3592e49236c36404")>'
+2023-01-03 07:49:30,546 INFO common_selenium_utils.py:42 __init__() - Web Server Selenium Driver Title--> ''
+2023-01-03 07:49:30,548 INFO logger.py:12 log() - 
+
+2023-01-03 07:49:30,548 INFO logger.py:12 log() - ====== WebDriver manager ======
+2023-01-03 07:49:30,912 INFO logger.py:12 log() - Current google-chrome version is 108.0.5359
+2023-01-03 07:49:30,912 INFO logger.py:12 log() - Get LATEST driver version for 108.0.5359
+2023-01-03 07:49:31,686 INFO logger.py:12 log() - Driver [C:\Users\Harini\.wdm\drivers\chromedriver\win32\108.0.5359.71\chromedriver.exe] found in cache
+2023-01-03 07:49:33,754 INFO common_selenium_utils.py:39 __init__() - ====> Initialized Selenium Web driver of class ServerWebSeleniumUtils for  Server <===
+2023-01-03 07:49:33,754 INFO common_selenium_utils.py:40 __init__() - Web Server Browser Selected is --> 'chrome'
+2023-01-03 07:49:33,754 INFO common_selenium_utils.py:41 __init__() - Web Server Selenium Driver initiated is --> '<selenium.webdriver.chrome.webdriver.WebDriver (session="60d364430c43fd46fbe3742b7c96130a")>'
+2023-01-03 07:49:33,760 INFO common_selenium_utils.py:42 __init__() - Web Server Selenium Driver Title--> ''
+2023-01-03 07:49:33,768 INFO environment.py:133 before_scenario() - Started scenario.name='Open web page'
+2023-01-03 07:49:33,772 INFO environment.py:139 before_step() - Started step.name='WEB: I open Web Page and verify "google_web["search_text_box"]" xpath is visible'
+2023-01-03 07:49:33,773 INFO common_server_steps.py:49 open_web_ui() - Input params for step: 'google_web["search_text_box"]'
+2023-01-03 07:49:33,922 INFO common_selenium_utils.py:1223 maximize_browser_window() - Maximized the browser in control
+2023-01-03 07:49:33,922 INFO common_selenium_utils.py:131 OpenURLAndVerifyXpathPresent() - Opening the URL 'https://www.google.com/'
+2023-01-03 07:49:40,904 INFO common_selenium_utils.py:169 WaitForXpath() - found xpath //input[@class="gLFyf"]
+2023-01-03 07:49:40,914 INFO common_selenium_utils.py:471 CheckIfXpathExist() - xpath //input[@class="gLFyf"] exists
+2023-01-03 07:49:40,914 INFO common_selenium_utils.py:135 OpenURLAndVerifyXpathPresent() - Opened https://www.google.com/ Page URL successfully
+2023-01-03 07:49:40,914 INFO common_server_steps.py:57 open_web_ui() -  Server UI opened successfully with URL 'https://www.google.com/'
+2023-01-03 07:49:40,914 INFO environment.py:143 after_step() - Completed step.name='WEB: I open Web Page and verify "google_web["search_text_box"]" xpath is visible'
+2023-01-03 07:49:40,914 INFO environment.py:148 after_scenario() - Completed scenario.name='Open web page'
+2023-01-03 07:49:40,914 INFO common_selenium_utils.py:1284 quitDriver() - Quit/ Cleared the  browser instance in control: '<selenium.webdriver.chrome.webdriver.WebDriver (session="60d364430c43fd46fbe3742b7c96130a")>'
+2023-01-03 07:49:43,864 INFO environment.py:160 after_feature() - Completed feature.name='Testing first scenario'
+2023-01-03 07:49:46,088 INFO environment.py:182 after_all() - XUnit Viewer Output Path of generated HTML report for 'DOCTOR' program run of 'TestCases' suite--> C:\AutomationFW\TestCases\Results\HTML\2023-01-03--07-49-26\xunit_Aaditya_2023-01-03 07-49-43.html
+2023-01-03 07:49:46,088 INFO environment.py:183 after_all() - New Custom generated HTML report for 'DOCTOR' program run of 'TestCases' suite--> C:\AutomationFW\TestCases\Results\HTML\2023-01-03--07-49-26\Aaditya_2023-01-03 07-49-45.html
+2023-01-03 07:49:48,139 INFO environment.py:191 after_all() - Reached After All
