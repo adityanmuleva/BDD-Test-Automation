@@ -2,3 +2,9 @@ venv
 .idea
 TestCases/Results
 __pycache__
+Configurations/__pycache__/
+TestCases/__pycache__/
+TestCases/features/steps/__pycache__/
+Utils/__pycache__/
+Xpaths/__pycache__/
+webdriver_manager/__pycache__/
