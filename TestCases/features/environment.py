@@ -88,16 +88,16 @@ def before_all(context):
     # https://behave.readthedocs.io/en/latest/new_and_noteworthy_v1.2.6.html
     # https://github.com/behave/behave/blob/master/features/runner.continue_after_failed_step.feature
 
-    if USER.casefold() == "doctor":
-        from Configurations.webconfig import DOCTOR_CONFIG
-        context.CONFIG = DOCTOR_CONFIG
-    elif USER.casefold() == "super_admin":
-        from Configurations.webconfig import SUPER_ADMIN_CONFIG
-        context.CONFIG = SUPER_ADMIN_CONFIG
-
-    context.SERVER_IP = context.CONFIG['SERVER_URL']
-    context.TENANT_USERNAME = context.CONFIG['USERNAME']
-    context.TENANT_PASSWORD = context.CONFIG['PASSWORD']
+    # if USER.casefold() == "doctor":
+    #     from Configurations.webconfig import DOCTOR_CONFIG
+    #     context.CONFIG = DOCTOR_CONFIG
+    # elif USER.casefold() == "super_admin":
+    #     from Configurations.webconfig import SUPER_ADMIN_CONFIG
+    #     context.CONFIG = SUPER_ADMIN_CONFIG
+    #
+    # context.SERVER_IP = context.DOCTOR_CONFIG['SERVER_URL']
+    # context.TENANT_USERNAME = context.DOCTOR_CONFIG['USERNAME_1']
+    # context.TENANT_PASSWORD = context.DOCTOR_CONFIG['PASSWORD_1']
 
 
 def before_feature(context, feature):
@@ -137,15 +137,18 @@ def before_scenario(context, scenario):
 
 def before_step(context, step):
     logging.info("Started step.name='{}'".format(step.name))
+    print("checkpoint =====================")
+
 
 
 def after_step(context, step):
     logging.info("Completed step.name='{}'".format(step.name))
-    pass
+    print("checkpoint1 =====================")
 
 
 def after_scenario(context, scenario):
     logging.info("Completed scenario.name='{}'".format(scenario.name))
+    print("checkpoint2 =====================")
     try:
         context.server_selen_obj.quitDriver()
     except Exception as err:
@@ -182,10 +185,10 @@ def after_all(context):
     logging.info("XUnit Viewer Output Path of generated HTML report for '{}' program run of '{}' suite--> {}".format(USER,TestSuite,xunit_html_report_file_path))
     logging.info("New Custom generated HTML report for '{}' program run of '{}' suite--> {}".format(USER, TestSuite,html_report_file_path))
 
-    if os.path.exists(xunit_html_report_file_path):
-        subprocess.Popen("{}".format(xunit_html_report_file_path), shell=True)
-    time.sleep(2)
-    if os.path.exists(html_report_file_path):
-        subprocess.Popen("{}".format(html_report_file_path), shell=True)
+    # if os.path.exists(xunit_html_report_file_path):
+    #     subprocess.Popen("{}".format(xunit_html_report_file_path), shell=True)
+    # time.sleep(2)
+    # if os.path.exists(html_report_file_path):
+    #     subprocess.Popen("{}".format(html_report_file_path), shell=True)
 
     logging.info("Reached After All")

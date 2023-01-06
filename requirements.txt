@@ -3,3 +3,4 @@ json5
 selenium==3.141.0
 urllib3
 requests
+faker
