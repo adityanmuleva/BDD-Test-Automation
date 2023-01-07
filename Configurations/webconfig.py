@@ -1,4 +1,3 @@
-patient_start_range = 0
 DOCTOR_CONFIG = {
     "SERVER_URL": "https://atlas-dev.oprable.com",
     "USERNAME_1": "aadityamuleva+test1",

@@ -40,8 +40,8 @@ def ExceptionFunction(err, exc_type, exc_obj, exc_tb):
     logging.error("ERRORED LINE\t::%s:\n" % str(exc_tb.tb_lineno))
 
 
-@step(u'I open Web Page and verify "{xpath}" xpath is visible')
-def open_web_ui(context, xpath):
+@step(u'I open operable web Page')
+def open_web_ui(context):
     """
     This Method opens the web ui in configured browser
     :param context: context of the run
@@ -49,10 +49,9 @@ def open_web_ui(context, xpath):
     :return True if pass, else Assert false
     """
     try:
-        logging.info("Input params for step: '{}'".format(xpath))
         server_url = DOCTOR_CONFIG["SERVER_URL"]
-        if ('context' in xpath) or ("[" and "]" in xpath):
-            xpath = eval(xpath)
+        xpath = login_xpath["username_textbox"]
+        logging.info("Input params for step: '{}'".format(xpath))
         context.server_selen_obj.maximize_browser_window()
         status = context.server_selen_obj.OpenURLAndVerifyXpathPresent(server_url, xpath)
         context.test_execution_data['"{}"  Server open status with xpath "{}" '.format(server_url, xpath)] = status
@@ -68,32 +67,22 @@ def open_web_ui(context, xpath):
         assert False, "'{}':'{}':'{}' occurred".format(exc_type, exc_obj, exc_tb)
 
 
-@step(u'I login to "{user}" account')
-def LoginServerUI(context, user):
+@step(u'I login to operable with username "{username}", password "{password}"')
+def LoginServerUI(context, username, password):
     """
     This Method is to log in with username and password
     :param context: context of the run
     :return True if pass, else Assert false
     """
     try:
-        context.execute_steps(
-            f'''
-                    Given  I open Web Page and verify "{login_xpath["username_textbox"]}" xpath is visible
-                    ''')
-        if user.casefold() == 'doctor':
-            username = DOCTOR_CONFIG["USERNAME_1"]
-            password = DOCTOR_CONFIG["PASSWORD_1"]
-        elif user.casefold() == "superadmin":
-            username = SUPER_ADMIN_CONFIG["USERNAME"]
-            password = SUPER_ADMIN_CONFIG["PASSWORD"]
-        else:
-            username = DOCTOR_CONFIG["USERNAME_1"]
-            password = DOCTOR_CONFIG["PASSWORD_1"]
+        logging.info("Input params for step: '{}', '{}'".format(username, password))
+        status_1 = context.server_selen_obj.isDisplayed_By_XPath(login_xpath["username_textbox"])
+        if status_1:
+            context.server_selen_obj.EnterTextInXpath(login_xpath["username_textbox"], username)
+            context.server_selen_obj.EnterTextInXpath(login_xpath["password_textbox"], password)
+            context.server_selen_obj.click_element_by_xpath(login_xpath['signin_button'])
+            context.server_selen_obj.CheckIfXpathExist(patient_list['patients_list_div'], 10)
 
-        context.server_selen_obj.EnterTextInXpath(login_xpath["username_textbox"], username)
-        context.server_selen_obj.EnterTextInXpath(login_xpath["password_textbox"], password)
-        context.server_selen_obj.click_element_by_xpath(login_xpath['signin_button'])
-        context.server_selen_obj.CheckIfXpathExist(patient_list['patients_list_div'], 10)
         status = context.server_selen_obj.WaitForXpath(patient_list['patients_list_div'], 10)
         context.test_execution_data[
             " Server login status with username '{}', password '{}'".format(username, password)] = status

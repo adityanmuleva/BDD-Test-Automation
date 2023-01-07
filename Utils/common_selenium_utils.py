@@ -30,7 +30,8 @@ class ServerWebSeleniumUtils:
         """
         if working_browser.casefold() == "chrome":
             options = webdriver.ChromeOptions()
-            options.add_argument("--no-sandbox")
+            # options.add_argument("--no-sandbox")
+            options.add_experimental_option('excludeSwitches', ['enable-logging'])
             options.set_capability('acceptInsecureCerts', True)
             web_driver_global = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         else:
