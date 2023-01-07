@@ -1,5 +1,6 @@
 import json
 import os, sys
+
 sys.path.append(os.path.join((os.path.realpath(__file__).split("TestCases")[0])))
 import time
 import logging
@@ -7,11 +8,13 @@ from re import match
 from Configurations import *
 from behave import step, register_type
 from TestCases.features.steps.environment_steps import *
-
-from Configurations.webconfig import DOCTOR_CONFIG
-from Xpaths.google import *
-
+from Configurations.webconfig import *
+from Xpaths.operable_xpaths import *
 import parse
+from faker import Faker
+import calendar
+import time
+import random
 
 
 ##Below logic helps the user to pass empty value in feature file
@@ -37,8 +40,8 @@ def ExceptionFunction(err, exc_type, exc_obj, exc_tb):
     logging.error("ERRORED LINE\t::%s:\n" % str(exc_tb.tb_lineno))
 
 
-@step(u'WEB: I open Web Page and verify "{xpath}" xpath is visible')
-def open_web_ui(context, xpath):
+@step(u'I open operable web Page')
+def open_web_ui(context):
     """
     This Method opens the web ui in configured browser
     :param context: context of the run
@@ -46,10 +49,9 @@ def open_web_ui(context, xpath):
     :return True if pass, else Assert false
     """
     try:
-        logging.info("Input params for step: '{}'".format(xpath))
         server_url = DOCTOR_CONFIG["SERVER_URL"]
-        if ('context' in xpath) or ("[" and "]" in xpath):
-            xpath = eval(xpath)
+        xpath = login_xpath["username_textbox"]
+        logging.info("Input params for step: '{}'".format(xpath))
         context.server_selen_obj.maximize_browser_window()
         status = context.server_selen_obj.OpenURLAndVerifyXpathPresent(server_url, xpath)
         context.test_execution_data['"{}"  Server open status with xpath "{}" '.format(server_url, xpath)] = status
@@ -65,21 +67,23 @@ def open_web_ui(context, xpath):
         assert False, "'{}':'{}':'{}' occurred".format(exc_type, exc_obj, exc_tb)
 
 
-@step(u'I login to "{user}" account ')
-def LoginServerUI(context):
+@step(u'I login to operable with username "{username}", password "{password}"')
+def LoginServerUI(context, username, password):
     """
-    This Method is to login with username and password
+    This Method is to log in with username and password
     :param context: context of the run
     :return True if pass, else Assert false
     """
     try:
-        username = context.USER_CONFIG.USERNAME
-        password = context.USER_CONFIG.PASSWORD
-        context.server_selen_obj.EnterTextInXpath(Login_Page["USERNAME_TEXTBOX"], username)
-        context.server_selen_obj.EnterTextInXpath(Login_Page["PASSWORD_TEXTBOX"], password)
-        context.server_selen_obj.click_element_by_xpath(Login_Page['SIGN_IN_BUTTON'])
-        context.server_selen_obj.CheckIfXpathExist(dashboard_page['DASHBOARD_TAB'], 10)
-        status = context.server_selen_obj.WaitForXpath(dashboard_page['DASHBOARD_TAB'], 10)
+        logging.info("Input params for step: '{}', '{}'".format(username, password))
+        status_1 = context.server_selen_obj.isDisplayed_By_XPath(login_xpath["username_textbox"])
+        if status_1:
+            context.server_selen_obj.EnterTextInXpath(login_xpath["username_textbox"], username)
+            context.server_selen_obj.EnterTextInXpath(login_xpath["password_textbox"], password)
+            context.server_selen_obj.click_element_by_xpath(login_xpath['signin_button'])
+            context.server_selen_obj.CheckIfXpathExist(patient_list['patients_list_div'], 10)
+
+        status = context.server_selen_obj.WaitForXpath(patient_list['patients_list_div'], 10)
         context.test_execution_data[
             " Server login status with username '{}', password '{}'".format(username, password)] = status
         if status == True:
@@ -87,6 +91,48 @@ def LoginServerUI(context):
                                                                                                         password))
             print("Successfully logged into  Server UI with username '{}', password '{}'".format(username,
                                                                                                  password))
+            return True
+
+    except Exception as err:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        ExceptionFunction(err, exc_type, exc_obj, exc_tb)
+        assert False, "'{}':'{}':'{}' occurred".format(exc_type, exc_obj, exc_tb)
+
+
+@step(u'I Create Patient')
+def LoginServerUI(context):
+    """
+    This Method is to log in with username and password
+    :param context: context of the run
+    :return True if pass, else Assert false
+    """
+    try:
+        gmt = time.gmtime()
+        ts = calendar.timegm(gmt)
+        fake = Faker()
+        username = fake.unique.first_name() + '_' + str(ts)
+        lastname = fake.unique.last_name()
+        gender = ["Male", "Female"]
+        random.choice(gender)
+        zip_code = random.randrange(10000, 99999)
+        phone_number = random.randrange(900000000, 999999999)
+        address = fake.address()
+
+        status = context.server_selen_obj.CheckIfXpathExist(patient_list['patients_list_div'], 10)
+        if status == True:
+            context.server_selen_obj.WaitForXpath(patient_list['add_patient_button'], 10)
+            context.server_selen_obj.click_element_by_xpath(patient_list['add_patient_button'])
+            context.server_selen_obj.WaitForXpath(add_patient['firstname_textbox'], 10)
+            context.server_selen_obj.EnterTextInXpath(add_patient["firstname_textbox"], username)
+            context.server_selen_obj.EnterTextInXpath(add_patient["lastname_textbox"], lastname)
+            # TODO :Date
+            context.server_selen_obj.click_element_by_xpath(add_patient['gender_dropdown'])
+            context.server_selen_obj.click_element_by_xpath(
+                add_patient['gender_option'].replace('~', random.choice(gender)))
+            context.server_selen_obj.EnterTextInXpath(add_patient["zipcode_textbox"], zip_code)
+            context.server_selen_obj.EnterTextInXpath(add_patient["mobile_number_textbox"], phone_number)
+            context.server_selen_obj.EnterTextInXpath(add_patient["address_textbox"], address)
+            # context.server_selen_obj.click_element_by_xpath(add_patient['submit_button'])
             return True
 
     except Exception as err:

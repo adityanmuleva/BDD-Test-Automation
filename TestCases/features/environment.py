@@ -34,8 +34,6 @@ jsonreport_dir = os.path.join(TestCases_Folder, "Results", "JSON", TimeStamp)
 htmlreport_dir = os.path.join(TestCases_Folder, "Results", "HTML", TimeStamp)
 current_log_directory = os.path.join(logs_directory, "this_run" + ".log")
 
-# report_py_file = "AutomationFW\\Reporter\\GenerateHTMLReport.py"
-# report_file = "GenerateHTMLReport.py"
 
 root_fol = os.path.join((os.path.realpath(__file__)).split("AutomationFW")[0])
 common_report_fol = os.path.join(root_fol, "AutomationFW", "Reporter")
@@ -88,18 +86,6 @@ def before_all(context):
     # https://behave.readthedocs.io/en/latest/new_and_noteworthy_v1.2.6.html
     # https://github.com/behave/behave/blob/master/features/runner.continue_after_failed_step.feature
 
-    if USER.casefold() == "doctor":
-        from Configurations.webconfig import DOCTOR_CONFIG
-        context.CONFIG = DOCTOR_CONFIG
-    elif USER.casefold() == "super_admin":
-        from Configurations.webconfig import SUPER_ADMIN_CONFIG
-        context.CONFIG = SUPER_ADMIN_CONFIG
-
-    context.SERVER_IP = context.CONFIG['SERVER_URL']
-    context.TENANT_USERNAME = context.CONFIG['USERNAME']
-    context.TENANT_PASSWORD = context.CONFIG['PASSWORD']
-
-
 def before_feature(context, feature):
     feature_logfile_path = os.path.join(logs_directory, feature.name + ".log")
     fh1 = logging.FileHandler(feature_logfile_path, mode='w')
@@ -141,7 +127,6 @@ def before_step(context, step):
 
 def after_step(context, step):
     logging.info("Completed step.name='{}'".format(step.name))
-    pass
 
 
 def after_scenario(context, scenario):
